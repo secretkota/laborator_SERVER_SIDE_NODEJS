@@ -1,0 +1,22 @@
+<h1>Список задач</h1>
+<!-- <form method="GET" action="/" style="margin-bottom: 20px;">
+    <label for="status">Фильтр: </label>
+    <select name="status" id="status" onchange="this.form.submit()">
+        <option value="all" <%= status === 'all' ? 'selected' : '' %>>Все задачи</option>
+        <option value="active" <%= status === 'active' ? 'selected' : '' %>>Активные задачи</option>
+        <option value="completed" <%= status === 'completed' ? 'selected' : '' %>>Выполненные задачи</option>
+    </select>
+</form> -->
+<ul>
+    <% todos.forEach(task=> { %>
+        <li>
+            <%= task.title %> - <%= task.completed ? "Completed" : "No completed" %>
+                    <form action="/todos/<%= task.id %>/delete" method="POST">
+                        <button type="submit">Удалить</button>
+                    </form>
+                    <form action="/todos/<%= task.id %>/toggle" method="POST"">
+                        <button type="submit">Обновить</button>
+                    </form>
+        </li>
+        <% }) %>
+</ul>
