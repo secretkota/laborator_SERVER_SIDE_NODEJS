@@ -1,25 +1,28 @@
-
-<h1>Список задач</h1>
+<h1 class="todosTitle">Список задач</h1>
 
 <form action="/todos" method="get">
     <label for="status">Фильтр:</label>
     <select name="status" id="status" onchange="this.form.submit()">
-        <option value="all" <%= status === 'all' ? 'selected' : '' %>>Все задачи</option>
-        <option value="active" <%= status === 'active' ? 'selected' : '' %>>Активные</option>
-        <option value="completed" <%= status === 'completed' ? 'selected' : '' %>>Выполненые</option>
+        <option value="all" <%=status==='all' ? 'selected' : '' %>>Все задачи</option>
+        <option value="active" <%=status==='active' ? 'selected' : '' %>>Активные</option>
+        <option value="completed" <%=status==='completed' ? 'selected' : '' %>>Выполненые</option>
     </select>
 </form>
 
-<ul>
+<ul class="taskList">
     <% todos.forEach(task=> { %>
         <li>
-            <%= task.title %> - <%= task.completed ? "Completed" : "No completed" %>
-                    <form action="/todos/<%= task.id %>/delete" method="POST">
-                        <button type="submit">Удалить</button>
-                    </form>
-                    <form action="/todos/<%= task.id %>/toggle" method="POST"">
-                        <button type="submit">Обновить</button>
-                    </form>
+            <div class="taskCard <%= task.completed ? 'completed' : '' %>">
+                <span>
+                    <%= task.title %> - <%= task.completed ? "Completed" : "No completed" %>
+                </span>
+                <form action="/todos/<%= task.id %>/delete" method="POST">
+                    <button type="submit">Удалить</button>
+                </form>
+                <form action="/todos/<%= task.id %>/toggle" method="POST">
+                    <button type="submit">Обновить</button>
+                </form>
+            </div>
         </li>
         <% }) %>
 </ul>

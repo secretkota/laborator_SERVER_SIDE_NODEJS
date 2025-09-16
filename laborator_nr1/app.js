@@ -16,6 +16,7 @@ app.use(express.urlencoded({ extended: true}))
 app.use(express.json())
 app.set('view engine', 'ejs')
 app.set('views', './views')
+app.use(express.static("public"))
 app.use(expressLayouts)
 app.set('layout', 'layout')
 // create TABLE TODOS IN DB
