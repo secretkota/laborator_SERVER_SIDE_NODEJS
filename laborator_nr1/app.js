@@ -6,7 +6,9 @@ import aboutRoute from './routes/aboutRoute.js'
 import { createTable } from './utils/createTable.js'
 import { pageNotFound } from './controllers/errorController.js';
 
+
 dotenv.config()
+
 
 const app = express()
 const port = process.env.PORT
@@ -19,8 +21,12 @@ app.set('layout', 'layout')
 // create TABLE TODOS IN DB
 createTable()
 
+app.get('/', (req, res) => {
+    res.redirect('/todos')
+})
 app.use('/todos', todoRoute)
 app.use('/about', aboutRoute)
+
 
 app.use(pageNotFound)
 
