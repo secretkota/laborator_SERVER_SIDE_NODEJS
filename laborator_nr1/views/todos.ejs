@@ -14,7 +14,7 @@
         <li>
             <div class="taskCard <%= task.completed ? 'completed' : '' %>">
                 <span>
-                    <%= task.title %> - <%= task.completed ? "Completed" : "No completed" %>
+                    <%= task.id %> <%= task.title %> - <%= task.completed ? "Completed" : "No completed" %>
                 </span>
                 <form action="/todos/<%= task.id %>/delete" method="POST">
                     <button type="submit">Удалить</button>
