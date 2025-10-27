@@ -16,6 +16,7 @@ export function updateCategory(id, name, callback) {
     db.run(`
         UPDATE categories
         SET name = ?
+        updated_at = CURRENT_TIMESTAMP
         WHERE id = ?
         `, [name, id], callback(null, { id, name, changes: this.changes }))
 }

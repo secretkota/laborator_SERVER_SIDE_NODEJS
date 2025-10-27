@@ -62,3 +62,41 @@ export const getTodosById = (id, callback) => {
         callback(null, todo)
     })
 }
+
+export function createNewTodo(title, category_id, callback) {
+    db.run('INSERT INTO todos (title, category_id) VALUES (?, ?)',
+        [title, category_id],
+        callback(null, { id: this.lastID, title, category_id })
+    )
+}
+
+export function updateTodo(id, title, completed, category_id, callback) {
+    db.run(`
+        UPDATE todos
+        SET title = ?, completed = ?, category_id = ?
+        updated_at = CURRENT_TIMESTAMP
+        WHERE id = ?
+        `,
+        [title, completed, category_id, id],
+        callback(null, { id, title, completed, category_id, changes: this.changes })
+    )
+}
+
+export function toggleTodo (id, callback) {
+    db.run(`
+        UPDATE todos
+        SET completed = CASE
+            WHEN completed = 1 THEN 0
+            ELSE 1
+        END,
+        updated_at = CURRENT_TIMESTAMP
+        WHERE id = ?
+        `, [id], callback(null, {id, changes: this.changes}))
+}
+
+export function deleteTodo(id, callback) {
+    db.run(`
+        DELETE FROM todos
+        WHERE id = ?
+        `, [id], callback(null, {id, deleted: this.deleted}))
+}
