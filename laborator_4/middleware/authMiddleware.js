@@ -8,7 +8,6 @@ export const authMiddleware = (req, res, next) => {
     jwt.verify(token, process.env.JWT_SECRET_KEY, (err, user) => {
         if (err) return res.status(403).json({message: "Неверный токен"})
         req.user = user
-        console.log(user)
         next()
     })
 }
