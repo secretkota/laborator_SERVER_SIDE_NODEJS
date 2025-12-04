@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Webhook Demo</title>
+  <style>
+    #events {
+      padding: 10px;
+      background: #f4f4f4;
+      border: 1px solid #ccc;
+      max-height: 400px;
+      overflow-y: auto;
+      font-family: monospace;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+
+<body>
+<h1>Webhook Demo</h1>
+
+<h3>Register Webhook</h3>
+<input id="webhookUrl" placeholder="http://localhost:3000/webhook-receiver" style="width: 350px;" value="https://webhook.site/"/>
+<button onclick="registerWebhook()">Register</button>
+
+<br><br>
+
+<h3>Create Product</h3>
+<input id="productName" placeholder="name" />
+<input id="productPrice" placeholder="price" />
+<button onclick="createProduct()">Create Product</button>
+
+<h2>Events (Logs)</h2>
+<div id="events"></div>
+
+<script>
+function log(message) {
+  console.log(message);
+  const box = document.getElementById("events");
+  const time = new Date().toLocaleTimeString();
+  box.innerText += `[${time}] ${message}\n`;
+  box.scrollTop = box.scrollHeight;
+}
+
+async function registerWebhook() {
+  const url = document.getElementById("webhookUrl").value;
+
+  log("Registering webhook with URL: " + url);
+
+  try {
+    const res = await fetch("/webhooks/register", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ url })
+    });
+
+    log("Response status: " + res.status);
+
+    const data = await res.text();
+    log("Response body: " + data);
+
+    alert("Webhook registered!");
+  } catch (err) {
+    log("ERROR during registerWebhook: " + err.message);
+  }
+}
+
+async function createProduct() {
+  const name = document.getElementById("productName").value;
+  const price = document.getElementById("productPrice").value;
+
+  log(`Creating product: name=${name}, price=${price}`);
+
+  try {
+    const res = await fetch("/products", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ name, price })
+    });
+
+    log("Response status: " + res.status);
+
+    const data = await res.text();
+    log("Response body: " + data);
+
+    alert("Product created!");
+  } catch (err) {
+    log("ERROR during createProduct: " + err.message);
+  }
+}
+</script>
+
+</body>
+</html>
